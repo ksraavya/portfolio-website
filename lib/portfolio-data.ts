@@ -70,7 +70,7 @@ export const projects = [
   {
     title: "Cost-Efficient RAG + LLM-as-Judge",
     subtitle: "Bias evaluation and mitigation pipeline for LLMs",
-    stack: ["Python", "RAG", "Claude API", "LLM Evaluation"],
+    stack: ["Python", "RAG", "Open AI API", "LLM Evaluation"],
     github: "https://github.com/ksraavya/cost-efficient-rag-llm-evaluation",
     demo: null,
     description: "A cost-efficient retrieval-augmented generation system with an LLM-as-judge evaluation framework to detect and mitigate biases in model outputs.",
@@ -81,6 +81,7 @@ export const projects = [
     ],
     visual: "pipeline", // which mini-visual to render
     featured: true,
+    image: "/projects/rag.png",
   },
   {
     title: "Content Integrity Investigator",
@@ -96,6 +97,7 @@ export const projects = [
     ],
     visual: "rl",
     featured: true,
+    image: "/projects/content-integrity.png",
   },
   {
     title: "BlueOrbit",
@@ -111,6 +113,7 @@ export const projects = [
     ],
     visual: "graph",
     featured: true,
+    image: "/projects/blueorbit.png",
   },
   {
     title: "StreamSentry",
@@ -126,6 +129,7 @@ export const projects = [
     ],
     visual: "anomaly",
     featured: false,
+    image: "/projects/streamsentry.png",
   },
 ];
 
