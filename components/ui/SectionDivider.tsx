@@ -9,7 +9,7 @@ export default function SectionDivider({ label }: { label: string }) {
     }}>
       {/* Gradient line */}
       <div style={{
-        width:"100%", maxWidth:"700px", height:"1px",
+        width:"100%", maxWidth:"1000px", height:"2px",
         background:"linear-gradient(90deg, transparent, rgba(139,92,246,0.8), rgba(6,182,212,0.8), transparent)",
         boxShadow:"0 0 12px rgba(139,92,246,0.4)",
       }}/>
@@ -17,7 +17,7 @@ export default function SectionDivider({ label }: { label: string }) {
       <div style={{ display:"flex", alignItems:"center", gap:"1.25rem" }}>
         <div style={{ width:"48px", height:"1px", background:"rgba(255,255,255,0.25)" }}/>
         <span style={{
-          fontFamily:"var(--font-mono)", fontSize:"0.95rem",
+          fontFamily:"var(--font-mono)", fontSize:"1.5rem",
           fontWeight:500, color:"#fff",
           letterSpacing:"0.25em", textTransform:"uppercase",
         }}>{label}</span>
