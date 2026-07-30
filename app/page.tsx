@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import HumanStrip from "@/components/sections/HumanStrip";
 import SectionDivider from "@/components/ui/SectionDivider";
 import Projects from "@/components/sections/Projects";
+import Experience from "@/components/sections/Experience";
 
 
 export default function Home() {
@@ -18,12 +19,14 @@ export default function Home() {
       <HumanStrip />
       <SectionDivider label="// my projects" />
       <Projects />
+      <SectionDivider label="// experience" />
+      <Experience />
 
       {/* TODO next commits:
           <Navbar />
           <About />
           <Projects />
-          <Experience />
+          
           <Achievements />
           <Contact />
           <ChatWidget />
