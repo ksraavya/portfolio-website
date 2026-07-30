@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/portfolio-data";
 
 const navLinks = [
-  { label: "About", href: "#about" },
+  { label: "About", href: "#home" }, // Updated to reroute to home section
   { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
   { label: "Achievements", href: "#achievements" },
@@ -38,7 +38,14 @@ export default function Navbar() {
   const scrollTo = (href: string) => {
     setMenuOpen(false);
     const id = href.replace("#", "");
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    
+    // Fallback: If #home or #about is requested, scroll to top if element doesn't exist
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
@@ -100,10 +107,14 @@ export default function Navbar() {
           className="desktop-nav"
         >
           {navLinks.map((link) => {
-            const isActive = activeSection === link.href.replace("#", "");
+            const targetId = link.href.replace("#", "");
+            const isActive =
+              activeSection === targetId ||
+              (targetId === "home" && activeSection === "about");
+
             return (
               <button
-                key={link.href}
+                key={link.label}
                 onClick={() => scrollTo(link.href)}
                 style={{
                   fontFamily: "var(--font-body)",
@@ -197,7 +208,7 @@ export default function Navbar() {
         >
           {navLinks.map((link) => (
             <button
-              key={link.href}
+              key={link.label}
               onClick={() => scrollTo(link.href)}
               style={{
                 fontFamily: "var(--font-body)",
