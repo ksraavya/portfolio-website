@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import TypeWriter from "@/components/ui/TypeWriter";
 import Terminal from "@/components/ui/Terminal";
+import ChatModal from "@/components/ui/ChatModal";
 import { siteConfig, typewriterLines } from "@/lib/portfolio-data";
 
 export default function Hero() {
     const [showHackerOverlay, setShowHackerOverlay] = useState(false);
+    const [chatOpen, setChatOpen] = useState(false);
 
     useEffect(() => {
         const sequence = [
@@ -29,8 +31,15 @@ export default function Hero() {
             }
         };
 
+        const handleOpenChatEvent = () => setChatOpen(true);
+
         window.addEventListener("keydown", handleKey);
-        return () => window.removeEventListener("keydown", handleKey);
+        window.addEventListener("open-chat", handleOpenChatEvent);
+        
+        return () => {
+            window.removeEventListener("keydown", handleKey);
+            window.removeEventListener("open-chat", handleOpenChatEvent);
+        };
     }, []);
 
     const triggerHackerMode = () => {
@@ -46,10 +55,6 @@ export default function Hero() {
         document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
     };
 
-    const openChat = () => {
-        window.dispatchEvent(new CustomEvent("open-chat"));
-    };
-
     const downloadCV = () => {
         const link = document.createElement("a");
         link.href = "/resume.pdf";
@@ -62,6 +67,7 @@ export default function Hero() {
 
     return (
         <section
+            id="home"
             style={{
                 position: "relative",
                 zIndex: 1,
@@ -175,7 +181,7 @@ export default function Hero() {
                         </button>
 
                         <button
-                            onClick={openChat}
+                            onClick={() => setChatOpen(true)}
                             style={{ padding: "0.7rem 1.5rem", borderRadius: "8px", background: "transparent", color: "var(--accent-bright)", fontFamily: "var(--font-body)", fontWeight: 500, fontSize: "0.9rem", border: "1px solid rgba(139, 92, 246, 0.4)", cursor: "pointer", transition: "border-color 0.2s, background 0.2s, transform 0.2s", backdropFilter: "blur(8px)" }}
                             onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.background = "rgba(139, 92, 246, 0.1)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
                             onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(139, 92, 246, 0.4)"; e.currentTarget.style.background = "transparent"; e.currentTarget.style.transform = "translateY(0)"; }}
@@ -206,6 +212,9 @@ export default function Hero() {
                     <Terminal />
                 </div>
             </div>
+
+            {/* Chat Modal Overlay */}
+            <ChatModal isOpen={chatOpen} onClose={() => setChatOpen(false)} />
 
             {/* Mobile: stack columns */}
             <style>{`
