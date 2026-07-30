@@ -6,6 +6,7 @@ import SectionDivider from "@/components/ui/SectionDivider";
 import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
 import Achievements from "@/components/sections/Achievements";
+import Contact from "@/components/sections/Contact";
 
 
 export default function Home() {
@@ -24,9 +25,10 @@ export default function Home() {
       <Experience />
       <SectionDivider label="// achievements" />
       <Achievements />
+      <SectionDivider label="// contact me" />
+      <Contact />
 
-      {/* TODO next commits:          
-          <Contact />
+      {/* TODO next commits: 
           <ChatWidget />
       */}
     </main>
