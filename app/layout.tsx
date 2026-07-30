@@ -2,9 +2,17 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sraavya — AI/ML Engineer & Data Scientist",
+  title: "Sraavya's Portfolio",
   description:
     "Pre-final year CS student at MAIT, GGSIPU. Building AI systems that think at scale. Interned at I4C (Ministry of Home Affairs) and SentinelOne. LeetCode Knight, ICPC Top 400.",
+  icons: {
+    icon: [
+      { url: "/icon.png", sizes: "16x16", type: "image/png" },
+      { url: "/icon.png", sizes: "32x32", type: "image/png" },
+    ],
+    // For Apple devices
+    apple: "/apple-touch-icon.png", 
+  },
   keywords: [
     "Sraavya Kochhar",
     "AI Engineer",
