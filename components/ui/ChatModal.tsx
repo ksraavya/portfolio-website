@@ -15,6 +15,14 @@ const STARTER_PROMPTS = [
   "What's her competitive programming rating?",
 ];
 
+const INITIAL_MESSAGES: Message[] = [
+  {
+    role: "assistant",
+    content:
+      "Hey! I'm Sraavya's AI twin 🤖 I know everything about her projects, tech stack, and experience. What do you want to know?",
+  },
+];
+
 export default function ChatModal({
   isOpen,
   onClose,
@@ -23,13 +31,7 @@ export default function ChatModal({
   onClose: () => void;
 }) {
   const [mounted, setMounted] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content:
-        "Hey! I'm Sraavya's AI twin 🤖 I know everything about her projects, tech stack, and experience. What do you want to know?",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -181,7 +183,11 @@ export default function ChatModal({
           </div>
 
           <button
-            onClick={onClose}
+            onClick={() => {
+              setMessages(INITIAL_MESSAGES);
+              setInput("");
+              onClose();
+            }}
             style={{
               background: "rgba(255,255,255,0.06)",
               border: "1px solid rgba(255,255,255,0.1)",
