@@ -4,26 +4,44 @@ import React, { useState } from "react";
 import { siteConfig } from "@/lib/portfolio-data";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [copied, setCopied] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(siteConfig.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("submitting");
+    setErrorMessage("");
 
-    // Simulating a form submission delay
-    // You can hook this up to Formspree, Resend, or Web3Forms later!
-    setTimeout(() => {
-      setStatus("success");
-      setFormData({ name: "", email: "", message: "" });
-    }, 1200);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: siteConfig.web3formsKey,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || `Portfolio Message from ${formData.name}`,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setStatus("error");
+        setErrorMessage(result.message || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage("Network error. Please check your connection.");
+    }
   };
 
   return (
@@ -74,13 +92,8 @@ export default function Contact() {
           }}
         >
           {/* Left Column: Direct Links & Status */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1.5rem",
-            }}
-          >
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            
             {/* Status Card */}
             <div
               style={{
@@ -137,7 +150,7 @@ export default function Contact() {
                   fontFamily: "var(--font-body, sans-serif)",
                 }}
               >
-                Whether you want to discuss AI models, cybercrime forensic pipelines, or tech internships — my inbox is always open.
+                Whether you want to discuss AI models, cybercrime forensic pipelines, or tech roles—drop a message directly and it will arrive straight to my inbox.
               </p>
             </div>
 
@@ -164,47 +177,8 @@ export default function Contact() {
                   margin: 0,
                 }}
               >
-                DIRECT CHANNELS
+                FIND ME ONLINE
               </p>
-
-              {/* Email Copy Box */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "0.75rem 1rem",
-                  borderRadius: "10px",
-                  background: "rgba(0, 0, 0, 0.3)",
-                  border: "1px solid rgba(255, 255, 255, 0.06)",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono, monospace)",
-                    fontSize: "0.85rem",
-                    color: "rgba(255, 255, 255, 0.85)",
-                  }}
-                >
-                  {siteConfig.email}
-                </span>
-                <button
-                  onClick={handleCopyEmail}
-                  style={{
-                    fontFamily: "var(--font-mono, monospace)",
-                    fontSize: "0.7rem",
-                    color: copied ? "#10b981" : "var(--accent-bright, #a78bfa)",
-                    background: "rgba(139, 92, 246, 0.12)",
-                    border: "1px solid rgba(139, 92, 246, 0.25)",
-                    borderRadius: "6px",
-                    padding: "0.3rem 0.6rem",
-                    cursor: "pointer",
-                    transition: "all 0.2s",
-                  }}
-                >
-                  {copied ? "COPIED! ✓" : "COPY"}
-                </button>
-              </div>
 
               {/* Social Link Buttons */}
               <div style={{ display: "flex", gap: "0.75rem" }}>
@@ -217,7 +191,7 @@ export default function Contact() {
                     textAlign: "center",
                     fontFamily: "var(--font-mono, monospace)",
                     fontSize: "0.8rem",
-                    padding: "0.65rem",
+                    padding: "0.75rem",
                     borderRadius: "10px",
                     background: "rgba(255, 255, 255, 0.04)",
                     border: "1px solid rgba(255, 255, 255, 0.1)",
@@ -245,7 +219,7 @@ export default function Contact() {
                     textAlign: "center",
                     fontFamily: "var(--font-mono, monospace)",
                     fontSize: "0.8rem",
-                    padding: "0.65rem",
+                    padding: "0.75rem",
                     borderRadius: "10px",
                     background: "rgba(255, 255, 255, 0.04)",
                     border: "1px solid rgba(255, 255, 255, 0.1)",
@@ -268,7 +242,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right Column: Glassmorphic Contact Form */}
+          {/* Right Column: Live Form */}
           <div
             style={{
               borderRadius: "16px",
@@ -314,7 +288,7 @@ export default function Contact() {
                     margin: 0,
                   }}
                 >
-                  Message Transmitted
+                  Message Delivered!
                 </h3>
                 <p
                   style={{
@@ -324,7 +298,7 @@ export default function Contact() {
                     margin: 0,
                   }}
                 >
-                  Thanks for reaching out! I'll review your message and get back to you shortly.
+                  Thanks for reaching out. I’ve received your message and will get back to you as soon as possible.
                 </p>
                 <button
                   onClick={() => setStatus("idle")}
@@ -374,7 +348,6 @@ export default function Contact() {
                       fontFamily: "var(--font-body, sans-serif)",
                       fontSize: "0.9rem",
                       outline: "none",
-                      transition: "border-color 0.2s",
                     }}
                     onFocus={(e) => (e.target.style.borderColor = "var(--accent, #8b5cf6)")}
                     onBlur={(e) => (e.target.style.borderColor = "rgba(255, 255, 255, 0.1)")}
@@ -393,12 +366,12 @@ export default function Contact() {
                       letterSpacing: "0.08em",
                     }}
                   >
-                    Email Address
+                    Your Email
                   </label>
                   <input
                     type="email"
                     required
-                    placeholder="e.g. alex@company.com"
+                    placeholder="e.g. alex@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     style={{
@@ -411,7 +384,6 @@ export default function Contact() {
                       fontFamily: "var(--font-body, sans-serif)",
                       fontSize: "0.9rem",
                       outline: "none",
-                      transition: "border-color 0.2s",
                     }}
                     onFocus={(e) => (e.target.style.borderColor = "var(--accent, #8b5cf6)")}
                     onBlur={(e) => (e.target.style.borderColor = "rgba(255, 255, 255, 0.1)")}
@@ -449,12 +421,17 @@ export default function Contact() {
                       fontSize: "0.9rem",
                       outline: "none",
                       resize: "vertical",
-                      transition: "border-color 0.2s",
                     }}
                     onFocus={(e) => (e.target.style.borderColor = "var(--accent, #8b5cf6)")}
                     onBlur={(e) => (e.target.style.borderColor = "rgba(255, 255, 255, 0.1)")}
                   />
                 </div>
+
+                {status === "error" && (
+                  <p style={{ color: "#f87171", fontSize: "0.8rem", fontFamily: "var(--font-mono)", margin: 0 }}>
+                    {errorMessage}
+                  </p>
+                )}
 
                 <button
                   type="submit"
@@ -485,7 +462,7 @@ export default function Contact() {
                     }
                   }}
                 >
-                  {status === "submitting" ? "TRANSMITTING..." : "SEND MESSAGE →"}
+                  {status === "submitting" ? "SENDING MESSAGE..." : "SEND MESSAGE →"}
                 </button>
               </form>
             )}

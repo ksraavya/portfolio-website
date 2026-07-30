@@ -11,6 +11,7 @@ export const siteConfig = {
   collegeYears: "Sept 2023 – July 2027",
   currentlyBuilding: "AI that actually knows what it's talking about (harder than it sounds)",
   openToWork: true,
+  web3formsKey: process.env.NEXT_PUBLIC_WEB3FORMS_KEY || "",
 };
 
 export const typewriterLines = [
