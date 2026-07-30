@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     description:
       "Building AI systems that think at scale. Check out my projects, experience, and achievements.",
     type: "website",
-    url: "https://sraavya.vercel.app", // TODO: update with your actual URL
+    url: "https://sraavya.vercel.app", 
   },
   twitter: {
     card: "summary_large_image",

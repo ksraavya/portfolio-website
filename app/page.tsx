@@ -5,6 +5,7 @@ import HumanStrip from "@/components/sections/HumanStrip";
 import SectionDivider from "@/components/ui/SectionDivider";
 import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
+import Achievements from "@/components/sections/Achievements";
 
 
 export default function Home() {
@@ -21,13 +22,10 @@ export default function Home() {
       <Projects />
       <SectionDivider label="// experience" />
       <Experience />
+      <SectionDivider label="// achievements" />
+      <Achievements />
 
-      {/* TODO next commits:
-          <Navbar />
-          <About />
-          <Projects />
-          
-          <Achievements />
+      {/* TODO next commits:          
           <Contact />
           <ChatWidget />
       */}
