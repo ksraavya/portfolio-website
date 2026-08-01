@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/portfolio-data";
 
 const navLinks = [
-  { label: "About", href: "#home" }, // Updated to reroute to home section
+  { label: "About", href: "#home" }, 
   { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
   { label: "Achievements", href: "#achievements" },

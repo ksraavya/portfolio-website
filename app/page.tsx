@@ -16,7 +16,7 @@ export default function Home() {
       <NeuralBackground />
       <Navbar />
 
-      {/* Sections — we'll add more each commit */}
+      {/* Sections */}
       <Hero />
       <HumanStrip />
       <SectionDivider label="// my projects" />
@@ -27,10 +27,6 @@ export default function Home() {
       <Achievements />
       <SectionDivider label="// contact me" />
       <Contact />
-
-      {/* TODO next commits: 
-          <ChatWidget />
-      */}
     </main>
   );
 }

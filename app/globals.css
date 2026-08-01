@@ -154,7 +154,6 @@ body.hacker-mode {
   100% { filter: none; }
 }
 
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

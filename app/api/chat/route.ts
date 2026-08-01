@@ -17,7 +17,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // gpt-4o-mini is ultra-fast, cheap, and handles system instructions cleanly
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
