@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# sraavya.vercel.app
 
-## Getting Started
+Personal portfolio website. Built with Next.js 14, deployed on Vercel.
 
-First, run the development server:
+**Live:** [sraavya.vercel.app](https://sraavya.vercel.app)
+
+---
+
+## Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Inline styles + CSS variables — no Tailwind, no component library
+- **Animation:** Custom canvas-based neural network background (`NeuralBackground.tsx`)
+- **AI Twin:** OpenAI API — chat widget with a hardcoded system prompt that keeps responses Sraavya-specific
+- **Contact form:** [Web3Forms](https://web3forms.com) — submissions land directly in email, no backend needed
+- **Deployment:** Vercel
+
+---
+
+## Features
+
+**AI Twin** — "Ask my AI twin" opens a chat widget powered by the OpenAI API. The system prompt constrains it to only answer questions about Sraavya: projects, experience, skills, achievements. Off-topic questions get redirected with personality. The prompt lives in `lib/portfolio-data.ts`.
+
+**Neural background** — animated canvas in `components/ui/NeuralBackground.tsx`. Draws nodes and edges that pulse and shift. Purely custom, no library.
+
+**Typewriter hero** — rotating lines in the hero section cycle through a few one-liners defined in `portfolio-data.ts`.
+
+**Experience accordion** — each experience card expands on click to show bullet points. Collapsed by default to keep the section clean.
+
+**Achievements filter** — tabs to filter by `all`, `competitive`, `hackathon`.
+
+**Contact form** — sends a message directly to Sraavya's inbox via Web3Forms. No server, no database.
+
+**Easter egg** — try the Konami code (↑ ↑ ↓ ↓ ← → ← → B A). No functionality gated behind it — just a reward for the curious.
+
+---
+
+## Project Structure
+
+```
+├── app/
+│   ├── layout.tsx          # root layout, fonts, metadata
+│   ├── page.tsx            # composes all sections
+│   └── api/chat/route.ts   # OpenAI API route for AI twin
+├── components/
+│   ├── layout/
+│   │   └── Navbar.tsx
+│   ├── sections/
+│   │   ├── Hero.tsx
+│   │   ├── HumanStrip.tsx  # the "also: I read literary fiction" ticker
+│   │   ├── Projects.tsx
+│   │   ├── Experience.tsx
+│   │   ├── Achievements.tsx
+│   │   └── Contact.tsx
+│   └── ui/
+│       ├── NeuralBackground.tsx
+│       ├── SectionDivider.tsx
+│       ├── Terminal.tsx
+│       └── TypeWriter.tsx
+├── lib/
+│   └── portfolio-data.ts   # single source of truth for all content + AI twin system prompt
+└── public/
+    ├── projects/           # project preview images
+    └── resume.pdf
+```
+
+---
+
+## Running Locally
+
+```bash
+git clone https://github.com/ksraavya/portfolio-website
+cd portfolio-website
+npm install
+```
+
+Create a `.env.local`:
+
+```env
+OPENAI_API_KEY=your_openai_api_key
+```
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Updating Content
 
-## Learn More
+Everything content-related lives in **`lib/portfolio-data.ts`** — projects, experience, achievements, skills, typewriter lines, and the AI twin's system prompt. To update the portfolio, edit that file. No other files need to change for content updates.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Variable | Purpose |
+|---|---|
+| `OPENAI_API_KEY` | Powers the AI twin chat widget |
 
-## Deploy on Vercel
+Web3Forms access key is set directly in the contact form component — no env variable needed.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+Deployed on Vercel. Push to `main` triggers a deploy automatically. Add `OPENAI_API_KEY` in Vercel's environment variable settings.
+
+---
+
+## License
+
+Code is open source — feel free to use it as reference or inspiration. Please don't deploy it as-is with my content. Swap in your own.
