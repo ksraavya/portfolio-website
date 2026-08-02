@@ -120,7 +120,7 @@ export default function Terminal() {
 
     // Auto scroll
     useEffect(() => {
-        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" , block: "nearest"});
     }, [lines]);
 
     const runCommand = (cmd: string) => {
@@ -141,7 +141,8 @@ export default function Terminal() {
             return;
         }
 
-        const handler = COMMANDS[trimmed];
+        const handler = COMMANDS[trimmed];        
+        const hidden = HIDDEN_COMMANDS[trimmed];
         if (handler) {
             const output = handler();
             setLines((prev) => [
@@ -149,9 +150,7 @@ export default function Terminal() {
                 { type: "output", content: output },
                 { type: "blank", content: "" },
             ]);
-        }
-        const hidden = HIDDEN_COMMANDS[trimmed];
-        if (hidden) {
+        } else if (hidden) {
             setLines((prev) => [
                 ...prev,
                 { type: "output", content: hidden() },
